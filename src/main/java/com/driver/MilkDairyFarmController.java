@@ -14,6 +14,7 @@ public class MilkDairyFarmController {
 
     public MilkDairyFarmController(MilkDairyFarmService milkDairyFarmService) {
     	// your code goes here
+        this.milkDairyFarmService = milkDairyFarmService;
     }
 
     @PostMapping("/addcow")
@@ -24,8 +25,12 @@ public class MilkDairyFarmController {
 
     @GetMapping("/milkproduction/{cowId}")
     public Cow getMilkProduction(@PathVariable int cowId) {
-    	// your code goes here
-        return milkDairyFarmService.getMilkProduction(cowId);
+        // your code goes here
+        Cow cow = milkDairyFarmService.getMilkProduction(cowId);
+        if (cow == null) {
+            throw new RuntimeException("Cow with ID " + cowId + " not found.");
+        }
+        return cow;
     }
 
     @GetMapping("/totalmilkproduction")
